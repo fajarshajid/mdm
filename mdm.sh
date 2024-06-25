@@ -31,25 +31,25 @@ select opt in "${options[@]}"; do
         dscl_path='/Volumes/Data/private/var/db/dslocal/nodes/Default'
         echo -e "${GRN}Đang tạo user${NC}"
         # Create user
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username"
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UserShell "/bin/zsh"
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" RealName "$realName"
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UniqueID "501"
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" PrimaryGroupID "20"
+        dscl -f "$dscl_path" . -create "/Users/$username"
+        dscl -f "$dscl_path" . -create "/Users/$username" UserShell "/bin/zsh"
+        dscl -f "$dscl_path" . -create "/Users/$username" RealName "$realName"
+        dscl -f "$dscl_path" . -create "/Users/$username" UniqueID "501"
+        dscl -f "$dscl_path" . -create "/Users/$username" PrimaryGroupID "20"
         mkdir "/Volumes/Data/Users/$username"
-        dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" NFSHomeDirectory "/Users/$username"
-        dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passw"
-        dscl -f "$dscl_path" localhost -append "/Local/Default/Groups/admin" GroupMembership $username
-        echo "0.0.0.0 deviceenrollment.apple.com" >>/Volumes/Data/etc/hosts
-        echo "0.0.0.0 mdmenrollment.apple.com" >>/Volumes/Data/etc/hosts
-        echo "0.0.0.0 iprofiles.apple.com" >>/Volumes/Data/etc/hosts
+        dscl -f "$dscl_path" . -create "/Users/$username" NFSHomeDirectory "/Users/$username"
+        dscl -f "$dscl_path" . -passwd "/Users/$username" "$passw"
+        dscl -f "$dscl_path" . -append "/Groups/admin" GroupMembership $username
+        echo "0.0.0.0 deviceenrollment.apple.com" >> /Volumes/Data/etc/hosts
+        echo "0.0.0.0 mdmenrollment.apple.com" >> /Volumes/Data/etc/hosts
+        echo "0.0.0.0 iprofiles.apple.com" >> /Volumes/Data/etc/hosts
         echo -e "${GRN}Chặn host thành công${NC}"
-        # echo "Remove config profile"
+        # Remove config profile
         touch /Volumes/Data/private/var/db/.AppleSetupDone
-        rm -rf /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigHasActivationRecord
-        rm -rf /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordFound
-        touch /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigProfileInstalled
-        touch /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordNotFound
+        rm -rf /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigHasActivationRecord
+        rm -rf /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordFound
+        touch /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigProfileInstalled
+        touch /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordNotFound
         echo "----------------------"
         break
         ;;
@@ -62,10 +62,10 @@ select opt in "${options[@]}"; do
         break
         ;;
     "Disable Notification (Recovery)")
-        rm -rf /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigHasActivationRecord
-        rm -rf /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordFound
-        touch /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigProfileInstalled
-        touch /Volumes/Data/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordNotFound
+        rm -rf /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigHasActivationRecord
+        rm -rf /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordFound
+        touch /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigProfileInstalled
+        touch /Volumes/Data/private/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordNotFound
         break
         ;;
     "Check MDM Enrollment")
